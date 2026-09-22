@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: mysql:8.0
@@ -8,9 +6,9 @@ services:
       MYSQL_DATABASE: loan_db
       MYSQL_ROOT_PASSWORD: MasterKey..
     ports:
-      - "3306:3306"
+      - "3307:3306" # <-- Cambiado a 3307 externo para evitar el bloqueo del MySQL local
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pMasterKey.."]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pMasterKey.." ]
       interval: 10s
       timeout: 5s
       retries: 5
