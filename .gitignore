@@ -1,0 +1,19 @@
+New-Item -Path ".gitignore" -ItemType File -Force
+Set-Content -Path ".gitignore" -Value "
+# Carpetas de Dependencias y Compilación
+node_modules/
+.angular/
+dist/
+target/
+.mvn/
+*.jar
+
+# Configuraciones del IDE
+.idea/
+.vscode/
+*.swp
+*.log
+
+# Base de datos local provisional
+.docker-data/
+"
