@@ -1,0 +1,59 @@
+<div style="max-width: 900px; margin: 40px auto; padding: 20px; font-family: sans-serif;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Panel de Administración - Gestión de Préstamos</h2>
+    <button (click)="logout()"
+      style="padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Cerrar
+      Sesión</button>
+  </div>
+
+  <div style="margin-bottom: 20px;">
+    <input type="text" (input)="onSearch($event)" placeholder="🔍 Buscar por monto o correo del usuario..."
+      style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" />
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+        <th style="padding: 12px;">ID</th>
+        <th style="padding: 12px;">Usuario</th>
+        <th style="padding: 12px;">Monto</th>
+        <th style="padding: 12px;">Plazo</th>
+        <th style="padding: 12px;">Estado</th>
+        <th style="padding: 12px; text-align: center;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (loan of loans(); track loan.id) {
+      <tr style="border-bottom: 1px solid #dee2e6;">
+        <td style="padding: 12px;">{{ loan.id }}</td>
+        <td style="padding: 12px;">{{ loan.userEmail }}</td>
+        <td style="padding: 12px;">${{ loan.amount }}</td>
+        <td style="padding: 12px;">{{ loan.term }} meses</td>
+        <td style="padding: 12px;">
+          <span [ngStyle]="{
+              'color': loan.status === 'APPROVED' ? 'green' : loan.status === 'REJECTED' ? 'red' : 'orange',
+              'font-weight': 'bold'
+            }">{{ loan.status }}</span>
+        </td>
+        <td style="padding: 12px; text-align: center;">
+          @if (loan.status === 'PENDING') {
+          <div style="display: flex; gap: 8px; justify-content: center;">
+            <button (click)="changeStatus(loan.id, 'APPROVED')"
+              style="padding: 6px 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Aprobar</button>
+            <button (click)="changeStatus(loan.id, 'REJECTED')"
+              style="padding: 6px 12px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Rechazar</button>
+          </div>
+          } @else {
+          <span style="color: #6c757d; font-size: 14px;">Sin acciones</span>
+          }
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="6" style="padding: 20px; text-align: center; color: #6c757d;">No se encontraron solicitudes que
+          coincidan con la búsqueda.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

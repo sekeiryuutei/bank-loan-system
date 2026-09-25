@@ -1,0 +1,43 @@
+<div
+  style="max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: sans-serif;">
+  <h2 style="text-align: center;">Iniciar Sesión</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px;">Correo Electrónico</label>
+      <input type="email" formControlName="email" style="width: 100%; padding: 8px; box-sizing: border-box;" />
+      @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+      <div style="color: red; font-size: 12px; margin-top: 5px;">
+        Ingresa un correo electrónico valido
+      </div>
+      }
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px;">Contraseña</label>
+      <input type="password" formControlName="password" style="width: 100%; padding: 8px; box-sizing: border-box;" />
+      @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+      <div style="color: red; font-size: 12px; margin-top: 5px;">
+        La contraseña es requerida
+      </div>
+      }
+    </div>
+
+    @if (errorMessage) {
+    <div style="color: red; margin-bottom: 15px; text-align: center;">
+      {{ errorMessage }}
+    </div>
+    }
+
+    <button type="submit" [disabled]="loginForm.invalid"
+      style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      Ingresar
+    </button>
+
+  </form>
+  <div style="text-align: center; margin-top: 15px;">
+    <a routerLink="/auth/register" style="color: #007bff; text-decoration: none; font-size: 14px;">¿No tienes cuenta?
+      Regístrate aquí</a>
+  </div>
+
+</div>

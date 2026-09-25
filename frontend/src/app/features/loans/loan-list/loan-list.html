@@ -1,0 +1,55 @@
+<div style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Mis Préstamos Solicitados</h2>
+    <div>
+      <button routerLink="/loans/request"
+        style="padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Solicitar
+        Préstamo</button>
+      <button (click)="logout()"
+        style="padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Cerrar
+        Sesión</button>
+    </div>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+      <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+        <th style="padding: 12px;">ID Préstamo</th>
+        <th style="padding: 12px;">Monto Solicitado</th>
+        <th style="padding: 12px;">Plazo (Meses)</th>
+        <th style="padding: 12px;">Estado del Crédito</th>
+        <th style="padding: 12px;">Fecha de Creación</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (loan of loans(); track loan.id) {
+      <tr style="border-bottom: 1px solid #dee2e6;">
+        <td style="padding: 12px;">{{ loan.id }}</td>
+        <td style="padding: 12px;">${{ loan.amount }}</td>
+        <td style="padding: 12px;">{{ loan.term }}</td>
+        <td style="padding: 12px;">
+          <span [ngStyle]="{
+              'color': loan.status === 'APPROVED' ? 'green' : loan.status === 'REJECTED' ? 'red' : 'orange',
+              'font-weight': 'bold'
+            }">{{ loan.status }}</span>
+        </td>
+        <td style="padding: 12px;">{{ loan.createdAt }}</td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="5" style="padding: 20px; text-align: center; color: #6c757d;">No has solicitado ningún préstamo
+          todavía.</td>
+      </tr>
+      }
+    </tbody>
+    @if (loans().length > 0) {
+    <tfoot>
+      <tr style="background-color: #f8f9fa; border-top: 2px solid #dee2e6; font-weight: bold;">
+        <td style="padding: 12px;">TOTAL ACCUMULADO:</td>
+        <td style="padding: 12px; color: #007bff;">${{ totalLoansAmount() }}</td>
+        <td colspan="3"></td>
+      </tr>
+    </tfoot>
+    }
+  </table>
+</div>

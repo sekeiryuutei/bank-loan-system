@@ -1,0 +1,65 @@
+<div
+  style="max-width: 500px; margin: 60px auto; padding: 25px; border: 1px solid #ccc; border-radius: 8px; font-family: sans-serif;">
+  <h2>Solicitar Nuevo Préstamo</h2>
+  <p style="color: #6c757d; font-size: 14px; margin-bottom: 20px;">Ingresa el monto deseado y el plazo en meses para
+    evaluar tu solicitud.</p>
+
+  <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">Monto del Préstamo</label>
+      <div
+        style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 4px; padding-left: 10px; background-color: #f8f9fa;">
+        <span style="font-weight: bold; color: #495057; margin-right: 5px;">$</span>
+        <input type="number" formControlName="amount" placeholder="Ej: 5000"
+          style="flex: 1; padding: 8px; border: none; outline: none; background: transparent; box-sizing: border-box;" />
+      </div>
+      @if (loanForm.get('amount')?.touched && loanForm.get('amount')?.invalid) {
+      <div style="color: red; font-size: 12px; margin-top: 5px;">
+        El monto debe ser mayor que 0
+      </div>
+      }
+    </div>
+
+    @if (amountSignal() > 0) {
+    <div style="margin-bottom: 15px; padding: 12px; background-color: #e9ecef; border-radius: 4px; font-size: 14px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+        <span>Interés estimado (5%):</span>
+        <strong>${{ estimatedInterest() }}</strong>
+      </div>
+      <div
+        style="display: flex; justify-content: space-between; border-top: 1px solid #dee2e6; padding-top: 5px; font-weight: bold;">
+        <span>Total estimado a pagar:</span>
+        <span style="color: #28a745;">${{ totalPayable() }}</span>
+      </div>
+    </div>
+    }
+
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">Plazo (Meses)</label>
+      <input type="number" formControlName="term" placeholder="Ej: 24"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" />
+      @if (loanForm.get('term')?.touched && loanForm.get('term')?.invalid) {
+      <div style="color: red; font-size: 12px; margin-top: 5px;">
+        El plazo debe ser mayor que 0
+      </div>
+      }
+    </div>
+
+    @if (errorMessage) {
+    <div style="color: red; margin-bottom: 15px; text-align: center;">
+      {{ errorMessage }}
+    </div>
+    }
+
+    <div style="display: flex; gap: 10px;">
+      <button type="submit" [disabled]="loanForm.invalid"
+        style="flex: 1; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        Enviar Solicitud
+      </button>
+      <button type="button" routerLink="/loans/list"
+        style="flex: 1; padding: 10px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
